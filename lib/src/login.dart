@@ -1,6 +1,6 @@
-import 'package:fixmail/src/Information.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'information.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -141,7 +141,7 @@ class _LoginState extends State<Login> {
                         fontSize: 16,
                       ),
                       filled: true,
-                      fillColor: Colors.white.withOpacity(0.2), // สีพื้นหลังใส
+                      fillColor: const Color.fromRGBO(0, 0, 0, 0.3), // สีพื้นหลังใส
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)))))
         ],
@@ -173,7 +173,7 @@ class _LoginState extends State<Login> {
                         fontSize: 16,
                       ),
                       filled: true,
-                      fillColor: Colors.white.withOpacity(0.2), // สีพื้นหลังใส
+                      fillColor: const Color.fromRGBO(0, 0, 0, 0.3), // สีพื้นหลังใส
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ))))

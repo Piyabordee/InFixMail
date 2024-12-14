@@ -1,4 +1,4 @@
-package com.example.qwe
+package com.wbac.inmailfix
 
 import io.flutter.embedding.android.FlutterActivity
 
