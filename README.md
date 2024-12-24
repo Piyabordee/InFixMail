@@ -1,16 +1,53 @@
-# fixmail
+# InMailFix
 
-A new Flutter project.
+This project is developed for college use, utilizing Flutter to create the application.
+
+## Project Features
+
+- Login System: Users can log in with their ID and password.
+- Information Page: Displays student information such as student ID, name, and major.
+- Issue Reporting: Users can request to change their Gmail password or report issues accessing Gmail.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. Clone this project to your local machine.
+2. Install dependencies using the command `flutter pub get`.
+3. Run the application using the command `flutter run`.
 
-A few resources to get you started if this is your first Flutter project:
+## Project Structure
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- `main.dart`: The main file of the application used to start the app.
+- `lib/src/login.dart`: Manages the login page.
+- `lib/src/information.dart`: Manages the student information page.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Further Development
+
+For further development, you can modify files in the `lib/src` folder and run the command `flutter run` to see the results.
+
+===========================================================================================================================
+
+# InMailFix
+
+โปรเจ็คนี้เป็นโปรเจ็คที่พัฒนาขึ้นเพื่อใช้ในวิทยาลัย โดยใช้ Flutter ในการพัฒนาแอปพลิเคชัน
+
+## ฟีเจอร์ของโปรเจ็ค
+
+- ระบบล็อกอิน: ผู้ใช้สามารถเข้าสู่ระบบด้วยรหัสประจำตัวและรหัสผ่าน
+- หน้าข้อมูล: แสดงข้อมูลนักศึกษา เช่น รหัสนักศึกษา ชื่อ และสาขา
+- การแจ้งปัญหา: ผู้ใช้สามารถแจ้งขอเปลี่ยนรหัสผ่าน Gmail หรือแจ้งปัญหาในการเข้าใช้งาน Gmail
+
+## การเริ่มต้นใช้งาน
+
+1. คลอนโปรเจ็คนี้ไปยังเครื่องของคุณ
+2. ติดตั้ง dependencies โดยใช้คำสั่ง `flutter pub get`
+3. รันแอปพลิเคชันโดยใช้คำสั่ง `flutter run`
+
+## โครงสร้างของโปรเจ็ค
+
+- `main.dart`: ไฟล์หลักของแอปพลิเคชันที่ใช้ในการเริ่มต้นแอป
+- `lib/src/login.dart`: ไฟล์ที่ใช้ในการจัดการหน้าล็อกอิน
+- `lib/src/information.dart`: ไฟล์ที่ใช้ในการจัดการหน้าข้อมูลนักศึกษา
+
+## การพัฒนาเพิ่มเติม
+
+หากต้องการพัฒนาเพิ่มเติม สามารถแก้ไขไฟล์ในโฟลเดอร์ `lib/src` และรันคำสั่ง `flutter run` เพื่อดูผลลัพธ์
