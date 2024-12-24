@@ -24,7 +24,7 @@ This project is developed for college use, utilizing Flutter to create the appli
 
 For further development, you can modify files in the `lib/src` folder and run the command `flutter run` to see the results.
 
-===========================================================================================================================
+===========================================================================
 
 # InMailFix
 
