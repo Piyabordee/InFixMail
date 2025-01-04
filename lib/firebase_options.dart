@@ -60,11 +60,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyB5-KrjdjlJzR1qJ38Tpm607DSO-Hw-oy8',
-    appId: '1:999542532498:ios:23d183dc04b913abeb794b',
+    appId: '1:999542532498:ios:c44bee8ace9ba046eb794b',
     messagingSenderId: '999542532498',
     projectId: 'inmailfix',
     storageBucket: 'inmailfix.firebasestorage.app',
-    iosBundleId: 'com.example.fixmail',
+    iosBundleId: 'com.wbac.inmailfix',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -77,12 +77,13 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCSViCvGgJURa1FC5vO07TgaBgHwg87YYE',
-    appId: '1:999542532498:web:218cbccc53d63d44eb794b',
+    apiKey: 'AIzaSyAqAk2KyPn45IjiBGD0bBEw99ALTYHxPQQ',
+    appId: '1:999542532498:web:e2134cebd41fc3cceb794b',
     messagingSenderId: '999542532498',
     projectId: 'inmailfix',
     authDomain: 'inmailfix.firebaseapp.com',
     storageBucket: 'inmailfix.firebasestorage.app',
-    measurementId: 'G-0GR35WZCXJ',
+    measurementId: 'G-L525F3570B',
   );
+
 }
