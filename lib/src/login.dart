@@ -60,7 +60,7 @@ class Top extends StatelessWidget {
               decoration: ShapeDecoration(
                 image: const DecorationImage(
                   image: AssetImage(
-                      "assets/icon/icon.png"), // รูปภาพ
+                      "assets/icon/icon.jpg"), // รูปภาพ
                   fit: BoxFit.fill,
                 ),
                 shape: RoundedRectangleBorder(
@@ -112,7 +112,8 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool isChecked = false; // ตัวแปรของ checkbox
-
+  final TextEditingController idController = TextEditingController(); // สร้าง TextEditingController
+  
   @override
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
@@ -133,6 +134,7 @@ class _LoginState extends State<Login> {
           Padding(
               padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
               child: TextFormField(
+                  controller: idController, // ใช้ TextEditingController
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                       hintText: "ใส่รหัสประจำตัวของคุณ",
@@ -215,10 +217,12 @@ class _LoginState extends State<Login> {
                       ])),
                   child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return const Information();
-                        }));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Information(userId: idController.text),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
