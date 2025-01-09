@@ -1,5 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:inmailfix/src/db.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'information.dart';
 
 class MyApp extends StatelessWidget {
@@ -59,8 +64,7 @@ class Top extends StatelessWidget {
             Container(
               decoration: ShapeDecoration(
                 image: const DecorationImage(
-                  image: AssetImage(
-                      "assets/icon/icon.jpg"), // รูปภาพ
+                  image: AssetImage("assets/icon/icon.jpg"), // รูปภาพ
                   fit: BoxFit.fill,
                 ),
                 shape: RoundedRectangleBorder(
@@ -109,128 +113,210 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
+bool isChecked = false; // ตัวแปรของ checkbox
+bool _isHidden = true; // ตัวแปรของ password
+final formkey = GlobalKey<FormState>();
+final TextEditingController idController =
+    TextEditingController(); // สร้าง TextEditingController
+UserDB user = UserDB(email: '', password: '');
 
 class _LoginState extends State<Login> {
-  bool isChecked = false; // ตัวแปรของ checkbox
-  final TextEditingController idController = TextEditingController(); // สร้าง TextEditingController
-  
+  @override
+  void initState() {
+    super.initState();
+    _loadRememberMeStatus(); // โหลดสถานะ "ติ้กถูก" จาก SharedPreferences
+  }
+
+  // ฟังก์ชันสำหรับโหลดสถานะ "ติ้กถูก"
+  Future<void> _loadRememberMeStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isChecked = prefs.getBool('remember_me') ?? false;
+    });
+
+    // หากมีการติ้กถูกไว้ก่อนหน้า ให้ข้ามไปหน้า Home
+    if (isChecked) {
+      String? savedUserId = prefs.getString('user_id');
+      if (savedUserId != null && savedUserId.isNotEmpty) {
+        _navigateToInformation(savedUserId);
+      }
+    }
+  }
+
+  // บันทึกสถานะ Remember Me และ userId
+  Future<void> _saveRememberMeStatus(String userId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('remember_me', isChecked);
+    await prefs.setString('user_id', userId);
+  }
+
+  // ฟังก์ชันนำทางไปหน้า Information
+  void _navigateToInformation(String userId) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Information(userId: userId),
+      ),
+    );
+  }
+
+  // ฟังก์ชันเมื่อกด Login
+  void _onLoginPressed() {
+    if (isChecked) {
+      _saveRememberMeStatus(idController.text); // บันทึก userId
+    }
+    _navigateToInformation(idController.text); // ไปหน้า Information
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(children: <Widget>[
-      Column(
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(25, 80, 0, 10),
-                child: Text("รหัสประจำตัว",
-                    style: GoogleFonts.kanit(
-                      color: Colors.white,
-                      fontSize: 16,
-                    )),
-              ),
-            ],
-          ),
-          Padding(
-              padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
-              child: TextFormField(
-                  controller: idController, // ใช้ TextEditingController
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                      hintText: "ใส่รหัสประจำตัวของคุณ",
-                      hintStyle: GoogleFonts.kanit(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                      filled: true,
-                      fillColor: const Color.fromRGBO(0, 0, 0, 0.3), // สีพื้นหลังใส
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)))))
-        ],
-      ),
-      Column(
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(25, 220, 0, 10),
-                child: Text("รหัสผ่าน",
-                    style: GoogleFonts.kanit(
-                      color: Colors.white,
-                      fontSize: 16,
-                    )),
-              ),
-            ],
-          ),
-          Padding(
-              padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
-              child: TextFormField(
-                  style: const TextStyle(color: Colors.white),
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    
-                      hintText: "ใส่รหัสผ่านของคุณ",
-                      hintStyle: GoogleFonts.kanit(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                      filled: true,
-                      fillColor: const Color.fromRGBO(0, 0, 0, 0.3), // สีพื้นหลังใส
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ))))
-        ],
-      ),
-      Column(children: [
+    return Form(
+      key: formkey,
+      child: Column(children: [
         Row(
           children: [
             Padding(
-                padding: const EdgeInsets.fromLTRB(10, 330, 0, 0),
-                child: Checkbox(
-                    value: isChecked, // ตัวแปรอยู่บรรทัด 114
-                    onChanged: (bool? value) {
-                      setState(() {
-                        isChecked = value ?? true;
-                      });
-                    })),
-            Padding(
-                padding: const EdgeInsets.fromLTRB(0, 331, 0, 0),
-                child: Text('Rememebr me',
-                    style: GoogleFonts.kanit(
-                      fontSize: 16,
-                      color: Colors.white,
-                    )))
+              padding: const EdgeInsets.fromLTRB(25, 80, 0, 10),
+              child: Text("รหัสประจำตัว",
+                  style: GoogleFonts.kanit(
+                    color: Colors.white,
+                    fontSize: 16,
+                  )),
+            ),
           ],
         ),
+        Padding(
+            padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
+            child: TextFormField(
+                validator:
+                    RequiredValidator(errorText: "กรุณากรอกรหัสประจำตัว").call,
+                controller: idController, // ใช้ TextEditingController
+                onSaved: (String? value) {
+                  user.email = "$value@wbac.ac.th";
+                },
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                    hintText: "ใส่รหัสประจำตัวของคุณ",
+                    hintStyle: GoogleFonts.kanit(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                    filled: true,
+                    fillColor:
+                        const Color.fromRGBO(0, 0, 0, 0.3), // สีพื้นหลังใส
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10))))),
+        Column(
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(25, 0, 0, 10),
+                  child: Text("รหัสผ่าน (Wbacและต่อด้วยรหัสประจำตัว)",
+                      style: GoogleFonts.kanit(
+                        color: Colors.white,
+                        fontSize: 16,
+                      )),
+                ),
+              ],
+            ),
+            Padding(
+                padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
+                child: TextFormField(
+                    validator:
+                        RequiredValidator(errorText: "กรุณากรอกรหัสผ่าน").call,
+                    style: const TextStyle(color: Colors.white),
+                    onSaved: (String? value) {
+                      user.password = value!;
+                    },
+                    decoration: InputDecoration(
+                        hintText: "ใส่รหัสผ่านของคุณ",
+                        suffixIcon: IconButton(
+                          color: Colors.white,
+                          onPressed: () {
+                            setState(() {
+                              _isHidden =
+                                  !_isHidden; // เมื่อกดก็เปลี่ยนค่าตรงกันข้าม
+                            });
+                          },
+                          icon: Icon(_isHidden // เงื่อนไขการสลับ icon
+                              ? Icons.visibility_off
+                              : Icons.visibility),
+                        ),
+                        hintStyle: GoogleFonts.kanit(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                        filled: true,
+                        fillColor:
+                            const Color.fromRGBO(0, 0, 0, 0.3), // สีพื้นหลังใส
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        )),
+                    obscureText: _isHidden))
+          ],
+        ),
+        Column(children: [
+          Row(
+            children: [
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Checkbox(
+                      value: isChecked,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isChecked = value ?? true;
+                        });
+                      })),
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: Text('จดจำการลงชื่อใช้งาน',
+                      style: GoogleFonts.kanit(
+                        fontSize: 16,
+                        color: Colors.white,
+                      )))
+            ],
+          ),
+        ]),
+        Center(
+            child: Container(
+                height: 57.0,
+                width: 309,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    gradient: const LinearGradient(colors: [
+                      Color.fromARGB(255, 2, 152, 176),
+                      Color.fromARGB(255, 124, 216, 89)
+                    ])),
+                child: ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        formkey.currentState!.save();
+                        formkey.currentState!.validate();
+                        await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: user.email, password: user.password)
+                            .then((value) {
+                          _onLoginPressed();
+                          Fluttertoast.showToast(
+                              msg: "เข้าสู่ระบบสำเร็จ",
+                              gravity: ToastGravity.TOP);
+                        });
+                      } on FirebaseAuthException catch (e) {
+                        Fluttertoast.showToast(
+                            msg: "รหัสประจำตัวหรือรหัสผ่านไม่ถูกต้อง",
+                            gravity: ToastGravity.CENTER);
+                            print("piyabordee =${e.code}, ${e.message}"); // แสดง error code และ message ใน console
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent),
+                    child: Text(
+                      "เข้าสู่ระบบ",
+                      style: GoogleFonts.kanit(color: Colors.white),
+                    ))))
       ]),
-      Center(
-          child: Padding(
-              padding: const EdgeInsets.only(top: 390),
-              child: Container(
-                  height: 57.0,
-                  width: 309,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      gradient: const LinearGradient(colors: [
-                        Color.fromARGB(255, 2, 152, 176),
-                        Color.fromARGB(255, 124, 216, 89)
-                      ])),
-                  child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Information(userId: idController.text),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent),
-                      child: Text(
-                        "เข้าสู่ระบบ",
-                        style: GoogleFonts.kanit(color: Colors.white),
-                      )))))
-    ]);
+    );
   }
 }

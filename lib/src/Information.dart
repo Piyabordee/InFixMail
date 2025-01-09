@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'login.dart';
 
 class StudentProvider with ChangeNotifier {
   String _name = '';
@@ -38,7 +42,7 @@ class Information extends StatelessWidget {
       throw Exception('Could not launch $url');
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -156,7 +160,42 @@ class Information extends StatelessWidget {
                       )
                     ],
                   ),
-                )
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 300),
+                  child: TextButton(
+                    onPressed: () {
+                      FirebaseAuth.instance.signOut().then(
+                        (value) async {
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.remove('user_id');
+                          await prefs.remove('remember_me'); // remove แคชที่บันทึกไว้ของ SharedPreferences
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MyApp(),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    style: TextButton.styleFrom(
+                      alignment: Alignment.center,
+                      side: const BorderSide(width: 1, color: Colors.white),
+                      backgroundColor: const Color.fromRGBO(116, 205, 139, 1),
+                      padding: const EdgeInsets.all(25),
+                    ),
+                    child: Text(
+                      "ออกจากระบบ",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.kanit(
+                        color: Colors.black,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

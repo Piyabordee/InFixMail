@@ -40,12 +40,15 @@ dependencies:
   http: ^1.2.2
   firebase_core: ^3.8.1
   change_app_package_name: ^1.4.0
-  firebase_auth: ^5.3.4
+  firebase_auth: ^5.4.0
   cloud_firestore: ^5.5.1
   provider: ^6.1.2
   firebase_ui_auth: ^1.16.0
   url_launcher: ^6.3.1
   google_api_availability: ^5.0.0
+  form_field_validator: ^1.1.0
+  fluttertoast: ^8.2.10
+  shared_preferences: ^2.3.5
 
 dev_dependencies:
   flutter_test:
