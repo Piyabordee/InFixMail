@@ -14,13 +14,16 @@ This project is developed for college use, utilizing Flutter to create the appli
 - firebase_core: Manages Firebase initialization for the app.
 - firebase_auth: Handles user authentication via Firebase.
 - cloud_firestore: Enables seamless Firestore database interaction.
+  
 **UI Enhancements**
 - google_fonts: Provides custom fonts, including Google Fonts.
-- gradient_widgets: Adds widgets with gradient styling for a more dynamic UI.
+- gradient_widgets: Adds widgets with gradient styling for a more dynamic UI
+  
 **Utilities**
 - shared_preferences: Enables local data storage for features like "Remember Me."
 - url_launcher: Facilitates launching URLs or external applications.
 - fluttertoast: Displays toast messages to provide user feedback.
+  
 **Validation & State Management**
 - form_field_validator: Simplifies form field validation.
 - provider: Manages state efficiently across the app.
@@ -59,13 +62,16 @@ For further development, you can modify files in the `lib/src` folder and run th
 firebase_core: สำหรับการจัดการการเริ่มต้นใช้งาน Firebase
 firebase_auth: ใช้สำหรับการยืนยันตัวตนของผู้ใช้ผ่าน Firebase
 cloud_firestore: ช่วยให้สามารถเชื่อมต่อและจัดการฐานข้อมูล Firestore
+
 **การปรับปรุง UI**
 google_fonts: รองรับฟอนต์จาก Google Fonts และฟอนต์อื่น ๆ
 gradient_widgets: เพิ่มวิดเจ็ตที่มีการออกแบบด้วยกราเดียนท์เพื่อสร้างความสวยงาม
+
 **เครื่องมือเสริม**
 shared_preferences: ใช้สำหรับการเก็บข้อมูลในเครื่อง เช่น ฟีเจอร์ "จดจำการลงชื่อใช้งาน"
 url_launcher: สำหรับเปิด URL หรือนำทางไปยังแอปพลิเคชันอื่น ๆ
 fluttertoast: แสดงข้อความแจ้งเตือน (Toast) เพื่อแจ้งข้อมูลแก่ผู้ใช้
+
 **การตรวจสอบและการจัดการสถานะ**
 form_field_validator: ช่วยให้การตรวจสอบความถูกต้องของฟอร์มเป็นเรื่องง่าย
 provider: ใช้สำหรับจัดการสถานะของแอปพลิเคชันอย่างมีประสิทธิภาพ
