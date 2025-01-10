@@ -8,6 +8,24 @@ This project is developed for college use, utilizing Flutter to create the appli
 - Information Page: Displays student information such as student ID, name, and major.
 - Issue Reporting: Users can request to change their Gmail password or report issues accessing Gmail.
 
+## Plugins
+
+This version of the app uses several plugins to enhance functionality and performance. Below is a list of the key plugins
+## Core Functionality
+- firebase_core: Manages Firebase initialization for the app.
+- firebase_auth: Handles user authentication via Firebase.
+- cloud_firestore: Enables seamless Firestore database interaction.
+## UI Enhancements
+- google_fonts: Provides custom fonts, including Google Fonts.
+- gradient_widgets: Adds widgets with gradient styling for a more dynamic UI.
+## Utilities
+- shared_preferences: Enables local data storage for features like "Remember Me."
+- url_launcher: Facilitates launching URLs or external applications.
+- fluttertoast: Displays toast messages to provide user feedback.
+## Validation & State Management
+- form_field_validator: Simplifies form field validation.
+- provider: Manages state efficiently across the app.
+
 ## Getting Started
 
 1. Clone this project to your local machine.
