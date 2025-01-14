@@ -6,20 +6,23 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:inmailfix/src/db.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'information.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return ScreenUtilInit( // กำหนดขนาดหน้าจอโดย AUTO DPI ทุกอุปกรณ์
+      builder: (context, child) {
+      return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
-              title: const Text(
-                "InMailFix",
+              title: Text(
+                "InMailFix v1.0.2",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 18,
+                  fontSize: 14.sp,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
@@ -31,14 +34,14 @@ class MyApp extends StatelessWidget {
                 color: const Color.fromARGB(255, 31, 31, 31),
                 child: Column(children: [
                   Container(
-                      width: 360,
-                      height: 640,
+                      width: 320.w,
+                      height: 480.h,
                       decoration: ShapeDecoration(
                         color: const Color(0xFF1F1F1F),
                         shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                              width: 0.50, color: Colors.white),
-                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(
+                              width: 0.50.w, color: Colors.white),
+                          borderRadius: BorderRadius.circular(10.r),
                         ),
                       ),
                       child: const Column(
@@ -49,8 +52,8 @@ class MyApp extends StatelessWidget {
                             Login(),
                           ]))
                 ]))));
-  }
-}
+  });
+}}
 
 class Top extends StatelessWidget {
   const Top({super.key});
@@ -71,11 +74,11 @@ class Top extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              width: 90,
-              height: 90,
+              width: 90.r,
+              height: 90.r,
             ),
-            const SizedBox(
-              width: 25,
+            SizedBox(
+              width: 25.w,
             ),
             Column(
                 mainAxisSize:
@@ -85,14 +88,14 @@ class Top extends StatelessWidget {
                     "เข้าสู่ระบบ",
                     style: GoogleFonts.kanit(
                       color: const Color(0xFF7FD858),
-                      fontSize: 20,
+                      fontSize: 20.sp,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: 5.r),
                   Text('INMAILFIX',
                       style: GoogleFonts.kanit(
                           color: const Color(0xFFFF96D5),
-                          fontSize: 32,
+                          fontSize: 32.sp,
                           fontWeight: FontWeight.bold,
                           shadows: [
                             const Shadow(
@@ -180,7 +183,7 @@ class _LoginState extends State<Login> {
               child: Text("รหัสประจำตัว",
                   style: GoogleFonts.kanit(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: 14.sp,
                   )),
             ),
           ],
@@ -199,7 +202,7 @@ class _LoginState extends State<Login> {
                     hintText: "ใส่รหัสประจำตัวของคุณ",
                     hintStyle: GoogleFonts.kanit(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 14.sp,
                     ),
                     filled: true,
                     fillColor:
@@ -215,7 +218,7 @@ class _LoginState extends State<Login> {
                   child: Text("รหัสผ่าน (Wbacและต่อด้วยรหัสประจำตัว)",
                       style: GoogleFonts.kanit(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: 14.sp,
                       )),
                 ),
               ],
@@ -245,7 +248,7 @@ class _LoginState extends State<Login> {
                         ),
                         hintStyle: GoogleFonts.kanit(
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 14.sp,
                         ),
                         filled: true,
                         fillColor:
@@ -272,7 +275,7 @@ class _LoginState extends State<Login> {
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Text('จดจำการลงชื่อใช้งาน',
                       style: GoogleFonts.kanit(
-                        fontSize: 16,
+                        fontSize: 14.sp,
                         color: Colors.white,
                       )))
             ],
@@ -280,8 +283,8 @@ class _LoginState extends State<Login> {
         ]),
         Center(
             child: Container(
-                height: 57.0,
-                width: 309,
+                height: 52.r,
+                width: 290.r,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     gradient: const LinearGradient(colors: [

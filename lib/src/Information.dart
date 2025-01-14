@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'login.dart';
 
 class StudentProvider with ChangeNotifier {
@@ -53,7 +53,7 @@ class Information extends StatelessWidget {
             color: const Color.fromARGB(255, 138, 138, 138),
             titleTextStyle: GoogleFonts.poppins(
               color: Colors.white,
-              fontSize: 18,
+              fontSize: 16.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -68,12 +68,12 @@ class Information extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  width: 360,
-                  height: 217,
+                  width: 320.w,
+                  height: 190.h,
                   decoration: ShapeDecoration(
                     color: const Color.fromRGBO(97, 148, 193, 1),
                     shape: RoundedRectangleBorder(
-                      side: const BorderSide(width: 0.50, color: Colors.white),
+                      side: BorderSide(width: 0.50.w, color: Colors.white),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -82,16 +82,16 @@ class Information extends StatelessWidget {
                     children: [InformationDATA()],
                   ),
                 ),
-                const SizedBox(
-                  height: 23,
+                SizedBox(
+                  height: 23.h,
                 ),
                 Container(
-                  width: 360,
-                  height: 107,
+                  width: 320.w,
+                  height: 80.h,
                   decoration: ShapeDecoration(
                     color: const Color.fromRGBO(97, 148, 193, 1),
                     shape: RoundedRectangleBorder(
-                      side: const BorderSide(width: 0.50, color: Colors.white),
+                      side: BorderSide(width: 0.50.w, color: Colors.white),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -113,7 +113,7 @@ class Information extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.kanit(
                             color: Colors.black,
-                            fontSize: 10,
+                            fontSize: 8.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -133,7 +133,7 @@ class Information extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.kanit(
                             color: Colors.black,
-                            fontSize: 10,
+                            fontSize: 8.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -153,7 +153,7 @@ class Information extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.kanit(
                             color: Colors.black,
-                            fontSize: 10,
+                            fontSize: 8.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -162,7 +162,7 @@ class Information extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 300),
+                  padding: const EdgeInsets.only(top: 220),
                   child: TextButton(
                     onPressed: () {
                       FirebaseAuth.instance.signOut().then(
@@ -190,7 +190,7 @@ class Information extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: GoogleFonts.kanit(
                         color: Colors.black,
-                        fontSize: 10,
+                        fontSize: 8.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -222,20 +222,20 @@ class _InformationDATAState extends State<InformationDATA> {
         studentProvider.img.isNotEmpty
             ? Image.network(
                 studentProvider.img,
-                width: 130,
-                height: 130,
+                width: 110.r,
+                height: 110.r,
               )
             : const CircularProgressIndicator(),
-        const SizedBox(
-          width: 10,
+        SizedBox(
+          width: 10.w,
         ),
         Container(
-          width: 195,
-          height: 151,
+          width: 160.w,
+          height: 130.h,
           decoration: ShapeDecoration(
               color: const Color.fromRGBO(217, 217, 217, 1),
               shape: RoundedRectangleBorder(
-                side: const BorderSide(width: 0.50, color: Colors.white),
+                side: BorderSide(width: 0.50.w, color: Colors.white),
                 borderRadius: BorderRadius.circular(10),
               )),
           child: Center(
@@ -247,7 +247,7 @@ class _InformationDATAState extends State<InformationDATA> {
                   "รหัสนักศึกษา ${studentProvider.student_id}\nชื่อ ${studentProvider.name}\nสาขา ${studentProvider.subject}",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.kanit(
-                    fontSize: 18,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 )
