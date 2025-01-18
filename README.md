@@ -20,11 +20,13 @@ This project is developed for college use, utilizing Flutter to create the appli
 **UI Enhancements**
 - google_fonts: Provides custom fonts, including Google Fonts.
 - gradient_widgets: Adds widgets with gradient styling for a more dynamic UI
+- Flutter_ScreenUtil: All layout and font sizes have been adjusted.
   
 **Utilities**
 - shared_preferences: Enables local data storage for features like "Remember Me."
 - url_launcher: Facilitates launching URLs or external applications.
 - fluttertoast: Displays toast messages to provide user feedback.
+- Shorebird: Added automatic updates. Using the command `shorebird patch --platforms=android`
   
 **Validation & State Management**
 - form_field_validator: Simplifies form field validation.
@@ -68,11 +70,13 @@ For further development, you can modify files in the `lib/src` folder and run th
 **การปรับปรุง UI**
 - google_fonts: รองรับฟอนต์จาก Google Fonts และฟอนต์อื่น ๆ
 - gradient_widgets: เพิ่มวิดเจ็ตที่มีการออกแบบด้วยกราเดียนท์เพื่อสร้างความสวยงาม
+- Flutter_ScreenUtil: ได้แก้ไขขนาด Layout และ Font ทั้งหมด
 
 **เครื่องมือเสริม**
 - shared_preferences: ใช้สำหรับการเก็บข้อมูลในเครื่อง เช่น ฟีเจอร์ "จดจำการลงชื่อใช้งาน"
 - url_launcher: สำหรับเปิด URL หรือนำทางไปยังแอปพลิเคชันอื่น ๆ
 - fluttertoast: แสดงข้อความแจ้งเตือน (Toast) เพื่อแจ้งข้อมูลแก่ผู้ใช้
+- Shorebird: เพิ่มการอัปเดตอัตโนมัติ โดยใช้คำสั่ง `shorebird patch --platforms=android`
 
 **การตรวจสอบและการจัดการสถานะ**
 - form_field_validator: ช่วยให้การตรวจสอบความถูกต้องของฟอร์มเป็นเรื่องง่าย
