@@ -17,19 +17,37 @@ class StudentProvider with ChangeNotifier {
   String get name => _name;
   String get img => _img;
   String get student_id => _student_id;
-  String get subject => _subject;
+  String get subject => _subject; // สำหรับการดึงข้อมูลนักศึกษา
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading; // สำหรับตรวจสอบว่ากำลังโหลดหรือไม่
 
   Future<void> fetchStudent(String studentId) async {
-    final studentDoc =
-        FirebaseFirestore.instance.collection('student').doc(studentId);
-    final docSnapshot = await studentDoc.get();
-    _name = docSnapshot['name'];
-    _img = docSnapshot['img'];
-    _student_id = docSnapshot['student_id'];
-    _subject = docSnapshot['subject'];
+    _isLoading = true;
     notifyListeners();
+    try {
+      final studentDoc =
+          FirebaseFirestore.instance.collection('student').doc(studentId);
+      final docSnapshot = await studentDoc.get();
+      if (docSnapshot.exists) {
+        _name = docSnapshot['name'] ?? '';
+        _img = docSnapshot['img'] ?? '';
+        _student_id = docSnapshot['student_id'] ?? '';
+        _subject = docSnapshot['subject'] ?? '';
+      } else {
+        throw Exception("ไม่พบข้อมูลนักศึกษา");
+      }
+    } catch (e) {
+      print("เกิดข้อผิดพลาดในการดึงข้อมูล(piyabordee): $e");
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 }
+
+const kPrimaryColor = Color.fromRGBO(97, 148, 193, 1);
+const kSecondaryColor = Color.fromRGBO(116, 205, 139, 1);
 
 class Information extends StatelessWidget {
   final String userId;
@@ -71,7 +89,7 @@ class Information extends StatelessWidget {
                   width: 320.w,
                   height: 190.h,
                   decoration: ShapeDecoration(
-                    color: const Color.fromRGBO(97, 148, 193, 1),
+                    color: kPrimaryColor,
                     shape: RoundedRectangleBorder(
                       side: BorderSide(width: 0.50.w, color: Colors.white),
                       borderRadius: BorderRadius.circular(10),
@@ -89,7 +107,7 @@ class Information extends StatelessWidget {
                   width: 320.w,
                   height: 80.h,
                   decoration: ShapeDecoration(
-                    color: const Color.fromRGBO(97, 148, 193, 1),
+                    color: kPrimaryColor,
                     shape: RoundedRectangleBorder(
                       side: BorderSide(width: 0.50.w, color: Colors.white),
                       borderRadius: BorderRadius.circular(10),
@@ -103,8 +121,7 @@ class Information extends StatelessWidget {
                           _openLineChat();
                         },
                         style: TextButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromRGBO(116, 205, 139, 1),
+                          backgroundColor: kSecondaryColor,
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(25),
                         ),
@@ -123,8 +140,7 @@ class Information extends StatelessWidget {
                           _openLineChat();
                         },
                         style: TextButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromRGBO(116, 205, 139, 1),
+                          backgroundColor: kSecondaryColor,
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(30),
                         ),
@@ -143,8 +159,7 @@ class Information extends StatelessWidget {
                           _openLineChat();
                         },
                         style: TextButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromRGBO(116, 205, 139, 1),
+                          backgroundColor: kSecondaryColor,
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(25),
                         ),
@@ -168,8 +183,8 @@ class Information extends StatelessWidget {
                       FirebaseAuth.instance.signOut().then(
                         (value) async {
                           final prefs = await SharedPreferences.getInstance();
-                          await prefs.remove('user_id');
-                          await prefs.remove('remember_me'); // remove แคชที่บันทึกไว้ของ SharedPreferences
+                          await prefs
+                              .clear(); // ลบข้อมูลทั้งหมดใน SharedPreferences
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -182,7 +197,7 @@ class Information extends StatelessWidget {
                     style: TextButton.styleFrom(
                       alignment: Alignment.center,
                       side: const BorderSide(width: 1, color: Colors.white),
-                      backgroundColor: const Color.fromRGBO(116, 205, 139, 1),
+                      backgroundColor: kSecondaryColor,
                       padding: const EdgeInsets.all(25),
                     ),
                     child: Text(

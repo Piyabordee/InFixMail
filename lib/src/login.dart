@@ -3,57 +3,58 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:inmailfix/src/db.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'information.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit( // กำหนดขนาดหน้าจอโดย AUTO DPI ทุกอุปกรณ์
-      builder: (context, child) {
+    return ScreenUtilInit(// กำหนดขนาดหน้าจอโดย AUTO DPI ทุกอุปกรณ์
+        builder: (context, child) {
       return MaterialApp(
-        home: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                "InMailFix v1.0.2",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.sp,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.bold,
+          home: Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  "InMailFix v1.0.2",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+                backgroundColor: const Color.fromARGB(255, 31, 31, 31),
               ),
-              backgroundColor: const Color.fromARGB(255, 31, 31, 31),
-            ),
-            body: Container(
-                width: double.infinity,
-                color: const Color.fromARGB(255, 31, 31, 31),
-                child: Column(children: [
-                  Container(
-                      width: 320.w,
-                      height: 480.h,
-                      decoration: ShapeDecoration(
-                        color: const Color(0xFF1F1F1F),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                              width: 0.50.w, color: Colors.white),
-                          borderRadius: BorderRadius.circular(10.r),
+              body: Container(
+                  width: double.infinity,
+                  color: const Color.fromARGB(255, 31, 31, 31),
+                  child: Column(children: [
+                    Container(
+                        width: 320.w,
+                        height: 480.h,
+                        decoration: ShapeDecoration(
+                          color: const Color(0xFF1F1F1F),
+                          shape: RoundedRectangleBorder(
+                            side:
+                                BorderSide(width: 0.50.w, color: Colors.white),
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
                         ),
-                      ),
-                      child: const Column(
-                          mainAxisAlignment:
-                              MainAxisAlignment.center, // จัดตำแหน่ง
-                          children: [
-                            Top(),
-                            Login(),
-                          ]))
-                ]))));
-  });
-}}
+                        child: const Column(
+                            mainAxisAlignment:
+                                MainAxisAlignment.center, // จัดตำแหน่ง
+                            children: [
+                              Top(),
+                              Login(),
+                            ]))
+                  ]))));
+    });
+  }
+}
 
 class Top extends StatelessWidget {
   const Top({super.key});
@@ -115,6 +116,15 @@ class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
 }
+
+FirebaseFirestore db = FirebaseFirestore.instance;
+
+class UserDB {
+  String email;
+  String password;
+
+  UserDB({required this.email, required this.password});
+} // สร้าง class UserDB สำหรับเก็บข้อมูล email และ password
 
 bool isChecked = false; // ตัวแปรของ checkbox
 bool _isHidden = true; // ตัวแปรของ password
@@ -226,8 +236,11 @@ class _LoginState extends State<Login> {
             Padding(
                 padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
                 child: TextFormField(
-                    validator:
-                        RequiredValidator(errorText: "กรุณากรอกรหัสผ่าน").call,
+                    validator: MultiValidator([
+                      RequiredValidator(errorText: "กรุณากรอกรหัสผ่าน"),
+                      MinLengthValidator(6,
+                          errorText: "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร")
+                    ]).call, // ตรวจสอบความถูกต้องของรหัสผ่าน
                     style: const TextStyle(color: Colors.white),
                     onSaved: (String? value) {
                       user.password = value!;
@@ -309,7 +322,8 @@ class _LoginState extends State<Login> {
                         Fluttertoast.showToast(
                             msg: "รหัสประจำตัวหรือรหัสผ่านไม่ถูกต้อง",
                             gravity: ToastGravity.CENTER);
-                            print("piyabordee =${e.code}, ${e.message}"); // แสดง error code และ message ใน console
+                        print(
+                            "piyabordee =${e.code}, ${e.message}"); // แสดง error code และ message ใน console
                       }
                     },
                     style: ElevatedButton.styleFrom(
