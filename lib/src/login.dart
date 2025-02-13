@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,42 +19,52 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(// กำหนดขนาดหน้าจอโดย AUTO DPI ทุกอุปกรณ์
         builder: (context, child) {
       return MaterialApp(
-          home: Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  "InMailFix v1.0.2",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              "InMailFix v1.0.4",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.sp,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            backgroundColor: const Color.fromARGB(255, 31, 31, 31),
+          ),
+          body: Container(
+            width: double.infinity,
+            color: const Color.fromARGB(255, 31, 31, 31),
+            child: Column(
+              children: [
+                Container(
+                  width: 320.w,
+                  height: 480.h,
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFF1F1F1F),
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 0.50.w, color: Colors.white),
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                  ),
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.center, // จัดตำแหน่ง
+                    children: [
+                      Top(),
+                      Login(),
+                    ],
                   ),
                 ),
-                backgroundColor: const Color.fromARGB(255, 31, 31, 31),
-              ),
-              body: Container(
-                  width: double.infinity,
-                  color: const Color.fromARGB(255, 31, 31, 31),
-                  child: Column(children: [
-                    Container(
-                        width: 320.w,
-                        height: 480.h,
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFF1F1F1F),
-                          shape: RoundedRectangleBorder(
-                            side:
-                                BorderSide(width: 0.50.w, color: Colors.white),
-                            borderRadius: BorderRadius.circular(10.r),
-                          ),
-                        ),
-                        child: const Column(
-                            mainAxisAlignment:
-                                MainAxisAlignment.center, // จัดตำแหน่ง
-                            children: [
-                              Top(),
-                              Login(),
-                            ]))
-                  ]))));
+                const SizedBox(
+                  height: 60,
+                ),
+                const UpdateButton(),
+              ],
+            ),
+          ),
+        ),
+      );
     });
   }
 }
@@ -334,6 +347,144 @@ class _LoginState extends State<Login> {
                       style: GoogleFonts.kanit(color: Colors.white),
                     ))))
       ]),
+    );
+  }
+}
+
+class UpdateButton extends StatefulWidget {
+  const UpdateButton({super.key});
+
+  @override
+  State<UpdateButton> createState() => _UpdateButtonState();
+}
+
+class _UpdateButtonState extends State<UpdateButton> {
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      style: OutlinedButton.styleFrom(
+        backgroundColor: const Color(0xFF1F1F1F),
+      ),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text(
+                "อัพเดทแอปพลิเคชั่น",
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.green,
+                    fontFamily: "Alike",
+                    fontWeight: FontWeight.w500),
+              ),
+              content: const Text(
+                'คุณต้องการอัพเดทแอปหรือไม่ ?\n\n(ถ้าต้องการให้กดคำว่า "ใช่"แล้วเข้าแอปใหม่อีก 1 รอบ)',
+                style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                    fontFamily: "Alike",
+                    fontWeight: FontWeight.w500),
+              ),
+              actions: <Widget>[
+                Row(
+                  children: [
+                    ElevatedButton(
+                      style: const ButtonStyle(
+                          backgroundColor:
+                              WidgetStatePropertyAll<Color>(Colors.red)),
+                      child: const Text(
+                        "ไม่",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontFamily: "Alike",
+                            fontWeight: FontWeight.w500),
+                      ),
+                      onPressed: () =>
+                          Navigator.pop(context, false), // ถ้อยหลัง 1 ค่า
+                    ),
+                    const Spacer(), // เพื่อดันปุ่มไปชิดขวา
+                    ElevatedButton(
+                      style: const ButtonStyle(
+                          backgroundColor:
+                              WidgetStatePropertyAll<Color>(Colors.green)),
+                      child: const Text(
+                        "ใช่",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontFamily: "Alike",
+                            fontWeight: FontWeight.w500),
+                      ),
+                      onPressed: () => exit(0), // ถ้อยหลัง 1 ค่า
+                    )
+                  ],
+                ),
+              ],
+              backgroundColor: const Color(0xFF1F1F1F).withOpacity(0.8),
+            );
+          },
+        );
+        // AlertDialog(
+        //   title: const Text(
+        //     "ออกจากระบบ",
+        //     style: TextStyle(
+        //         fontSize: 20,
+        //         color: Colors.red,
+        //         fontFamily: "Alike",
+        //         fontWeight: FontWeight.w500),
+        //   ),
+        //   content: const Text(
+        //     "คุณต้องการออกจากระบบหรือไม่ ?",
+        //     style: TextStyle(
+        //         fontSize: 16,
+        //         color: Colors.black,
+        //         fontFamily: "Alike",
+        //         fontWeight: FontWeight.w500),
+        //   ),
+        //   actions: <Widget>[
+        //     Row(
+        //       children: [
+        //         ElevatedButton(
+        //           style: const ButtonStyle(
+        //               backgroundColor:
+        //                   WidgetStatePropertyAll<Color>(Colors.red)),
+        //           child: const Text(
+        //             "ไม่",
+        //             style: TextStyle(
+        //                 fontSize: 16,
+        //                 color: Colors.white,
+        //                 fontFamily: "Alike",
+        //                 fontWeight: FontWeight.w500),
+        //           ),
+        //           onPressed: () =>
+        //               Navigator.pop(context, false), // ถ้อยหลัง 1 ค่า
+        //         ),
+        //         const Spacer(), // เพื่อดันปุ่มไปชิดขวา
+        //         ElevatedButton(
+        //           style: const ButtonStyle(
+        //               backgroundColor:
+        //                   WidgetStatePropertyAll<Color>(Colors.green)),
+        //           child: const Text(
+        //             "ใช่",
+        //             style: TextStyle(
+        //                 fontSize: 16,
+        //                 color: Colors.white,
+        //                 fontFamily: "Alike",
+        //                 fontWeight: FontWeight.w500),
+        //           ),
+        //           onPressed: () => exit(0), // ถ้อยหลัง 1 ค่า
+        //         )
+        //       ],
+        //     )
+        //   ],
+        // );
+      },
+      child: Text(
+        "อัพเดทแอปพลิเคชั่น",
+        style: GoogleFonts.kanit(color: Colors.white),
+      ),
     );
   }
 }
