@@ -2,7 +2,7 @@
 
 โปรเจ็คนี้เป็นโปรเจ็คที่พัฒนาขึ้นเพื่อใช้ในวิทยาลัย โดยใช้ Flutter ในการพัฒนาแอปพลิเคชัน
 
-**[Preview App Here](https://appetize.io/app/b_m7ubxho2qjoik3u46ukrrw6rvm)**
+**[Preview App Here](https://appetize.io/app/b_3fxr4dqvg6furmgzm4ulbzj6te)**
 
 ![](https://img2.pic.in.th/pic/1bac7bc44ad683808.png)![](https://img5.pic.in.th/file/secure-sv1/2a69f7a9552c9fad6.png)![](https://img5.pic.in.th/file/secure-sv1/3fb8ece35173a56d3.png)
 
